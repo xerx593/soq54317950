@@ -5,12 +5,13 @@ import domain.solution.Solution;
 /**
  *
  * @param <V>
+ * @param <S>
  */
-public interface NextSolutionGenerator<V extends Number> {
+public interface NextSolutionGenerator<V extends Number, S extends Solution<V>> {
 
-    Solution<V> generate(Solution<V> prev);
+    S generate(S prev);
 
-    Solution<V> improve(Solution<V> initialSolution);
+    S improve(S initialSolution, StopCondition<V,S> stopCondition);
 
     void setSolutionBuilder(SolutionBuilder sob);
 

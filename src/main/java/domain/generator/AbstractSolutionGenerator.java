@@ -6,13 +6,12 @@ import domain.solution.Solution;
  * @param <V>
  * @param <S>
  */
-public abstract class AbstractSolutionGenerator<V extends Number, S extends Solution<V>> implements NextSolutionGenerator<V> {
+public abstract class AbstractSolutionGenerator<V extends Number, S extends Solution<V>> implements NextSolutionGenerator<V, S> {
 
     protected SolutionBuilder<V, S> solutionBuilder;
-    private StopCondition stopCondition;
 
     @Override
-    public Solution<V> generate(Solution<V> prev) {
+    public S generate(S prev) {
         return doGenerate((S) prev);
     }
 
@@ -24,9 +23,9 @@ public abstract class AbstractSolutionGenerator<V extends Number, S extends Solu
     }
 
     @Override
-    public Solution<V> improve(Solution<V> initialSolution) {
+    public S improve(S initialSolution, StopCondition<V, S> stopCondition) {
         stopCondition.setInitialSolution(initialSolution);
-        Solution nextSolution = initialSolution;
+        S nextSolution = initialSolution;
         do {
             nextSolution = generate(nextSolution);
         } while (!stopCondition.isStopConditionReached());
